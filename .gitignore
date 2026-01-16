@@ -1,0 +1,12 @@
+﻿# Configurações sensíveis
+appsettings.Development.json
+appsettings.Production.json
+
+# Arquivos locais
+.env
+.env.*
+secrets.json
+
+# Build
+bin/
+obj/
