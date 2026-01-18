@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -28,13 +29,14 @@ namespace LoggAutorz.Users
             get { return email; }
             set { email = value; }
         }
+        [JsonIgnore][DefaultValue("Employee")] public string[]? role { get; set; } = new[] { "Employee" };
         [JsonIgnore][Required][MaxLength(255)] public string PasswordHash { get; set; } = string.Empty;
 
         [JsonIgnore] public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
         [JsonIgnore] public DateTime UpdatedAt { get; private set; } = DateTime.UtcNow;
         [JsonIgnore] public int totalTry { get; set; } = 3;
 
-        public void Update(string? _userName, string? _email, string? _passwordhash )
+        public void Update(string? _userName, string? _email, string? _passwordhash, string[] role )
         {
             if (!string.IsNullOrWhiteSpace(_email))
                 Email = _email.ToLower().Trim();

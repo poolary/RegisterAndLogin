@@ -1,5 +1,6 @@
 ﻿using BCrypt.Net;
 using LoggAutorz.DataBase;
+using LoggAutorz.Repositorie;
 using LoggAutorz.ServicesDb;
 using LoggAutorz.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,13 @@ namespace LoggAutorz.Controllers
     {
         private readonly AppDbContext _appDbContext;
         private ServicesToApiHttp _services;
+        private readonly GenerateService _generateService;
 
-        public UserController(AppDbContext appDbContext, ServicesToApiHttp services)
+        public UserController(AppDbContext appDbContext, ServicesToApiHttp services, GenerateService generateService)
         {
             _appDbContext = appDbContext;
             _services = services;
+            _generateService = generateService;
         }
 
 
@@ -55,7 +58,8 @@ namespace LoggAutorz.Controllers
                     UserName = dto.Name,
                     Email = dto.Email,
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-                    totalTry = 3
+                    totalTry = 3,
+                    role = dto.role
                 };
 
 
@@ -65,7 +69,8 @@ namespace LoggAutorz.Controllers
                 {
                     Id = user.UserId,
                     Name = user.UserName,
-                    Email = user.Email
+                    Email = user.Email,
+                    role = user.role
                 };
                 return Ok(response);
             }
@@ -112,6 +117,8 @@ namespace LoggAutorz.Controllers
 
             return Ok($"Hello, {user.UserName}! How are you?");
 
+        }
+
             }
-    }}
+    }
     

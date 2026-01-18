@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace LoggAutorz.Users
@@ -17,7 +18,7 @@ namespace LoggAutorz.Users
             [MinLength(8)]
             
         public string Password { get; set; } = string.Empty;
-
+        [JsonIgnore][DefaultValue("Employee")]public string[] role { get; set; } = new[] { "Employee" };
     }
 
 }
