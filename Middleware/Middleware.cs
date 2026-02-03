@@ -40,7 +40,7 @@ namespace LoggAutorz.Middleware
                             message = "Invalid request.";
                             break;
                         case 401:
-                            message = "Unauthorizhed";
+                            message = "Unauthorizhed.";
                             break;
                         case 403:
                             message = "Acess denied.";
@@ -49,10 +49,12 @@ namespace LoggAutorz.Middleware
                             message = "Resourse not found";
                             break;
                         case 500:
-                        default:
                             message = "Internal server error";
                             break;
-                    }
+                        default:
+                            message = "An unexpected error occurred.";
+                            break;
+                }
 
                     var response = _env.IsDevelopment()
                         ? new ApiException(context.Response.StatusCode.ToString(), ex.Message, ex.StackTrace.ToString()) //STACK TRACE é detalhado

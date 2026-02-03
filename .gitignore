@@ -1,6 +1,7 @@
 ﻿# Configurações sensíveis
 appsettings.Development.json
 appsettings.Production.json
+appsettings.json
 
 # Arquivos locais
 .env

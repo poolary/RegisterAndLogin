@@ -1,24 +1,28 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace LoggAutorz.Users
-{    
-        public class RegisterUserDTO
-        {
-            [Required]
+{
+    public class RegisterUserDTO
+    {
+        [Required]
         [MaxLength(100)]
-            public string Name { get; set; } = string.Empty;
-            [Required]
+        public string Name { get; set; } = string.Empty;
+        [Required]
         [EmailAddress]
         [MaxLength(100)]
-            public string Email { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-            [Required]
-            [MinLength(8)]
-            
+        [Required]
+        [MinLength(8)]
+
         public string Password { get; set; } = string.Empty;
-        [JsonIgnore][DefaultValue("Employee")]public string[] role { get; set; } = new[] { "Employee" };
+
+        [JsonIgnore] public string[] role { get; set; } = new[] { "Employee" };
+
     }
 
 }
