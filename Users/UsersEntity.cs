@@ -10,15 +10,19 @@ namespace LoggAutorz.Users
         private string email;
 
         public UsersEntity() { }
-        public UsersEntity(string userName, string email, string passwordHash)
+
+        public UsersEntity(int Id, string userName, string email, string passwordHash, string[] Role)
         {
+            UserId = Id;
             UserName = userName;
             Email = email;
             PasswordHash = passwordHash;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
             totalTry = 3;
+            role = Role;
         }
+
 
         [Key][DatabaseGenerated(DatabaseGeneratedOption.Identity)] public int UserId { get; private set; }
         [Required][MaxLength(100)] public string UserName { get; set; } = string.Empty;
@@ -35,6 +39,7 @@ namespace LoggAutorz.Users
         [JsonIgnore] public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
         [JsonIgnore] public DateTime UpdatedAt { get; private set; } = DateTime.UtcNow;
         [JsonIgnore] public int totalTry { get; set; } = 3;
+
 
         public void Update(string? _userName, string? _email, string? _passwordhash, string[] role )
         {

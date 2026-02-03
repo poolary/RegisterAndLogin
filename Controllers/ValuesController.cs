@@ -1,5 +1,6 @@
 ﻿using BCrypt.Net;
 using LoggAutorz.DataBase;
+using LoggAutorz.Migrations;
 using LoggAutorz.Repositorie;
 using LoggAutorz.ServicesDb;
 using LoggAutorz.Users;
@@ -9,8 +10,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 using System.Data;
 using System.Net.Mail;
+using System.Text.Json.Serialization;
 
 namespace LoggAutorz.Controllers
 {
@@ -29,14 +32,20 @@ namespace LoggAutorz.Controllers
             _generateService = generateService;
         }
 
+        //static OpenApiMediaType type = new OpenApiMediaType();
+        //public static readonly IOpenApiMediaType iOpenApiMediaType = type;
 
         //------------------------------
+        //[Authorize("AdminMax")]
+        //[Authorize("Admin")]
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            try
+
+                try
             {
                 if (string.IsNullOrEmpty(dto.Password) || dto.Password.Length < 8)
                     return BadRequest("Password must be at least 8 characters long");
@@ -61,6 +70,7 @@ namespace LoggAutorz.Controllers
                     totalTry = 3,
                     role = dto.role
                 };
+                //if (user.role == new[] { "Employee" }) {}
 
 
                 _appDbContext.UserAccounts.Add(user);
@@ -76,7 +86,8 @@ namespace LoggAutorz.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.InnerException?.Message ?? ex.Message);
+                return StatusCode(500, ex.Message);
+                //return BadRequest(ex.InnerException?.Message ?? ex.Message);
             }
         }
 
